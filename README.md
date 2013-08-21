@@ -2,6 +2,10 @@
 
 A Clojure library for generating PDFs from HTML. Uses wkhtmltopdf, and insipred by [ring-wicked-pdf](https://github.com/gberenfield/ring-wicked-pdf).
 
+## Install
+
+Leiningen installation: https://clojars.org/pdfkit-clj.
+
 ## Usage
 
 ```clojure
