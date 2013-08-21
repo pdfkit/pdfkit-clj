@@ -1,6 +1,6 @@
 # pdfkit-clj
 
-A Clojure library for generating PDFs from HTML. Uses wkhtmltopdf, and insipred by [ring-wicked-pdf](https://github.com/gberenfield/ring-wicked-pdf).
+A Clojure library for generating PDFs from HTML. Uses wkhtmltopdf, and insipred by Ruby's pdfkit and [ring-wicked-pdf](https://github.com/gberenfield/ring-wicked-pdf).
 
 ## Install
 
@@ -17,13 +17,33 @@ Leiningen installation:
 
 (gen-pdf html)
 
+#<File /tmp/pdfkit-20130821T161228935Z.pdf>
+```
+
+You can also convert your file to an InputStream, ready for consumption by a browser (helpful for Ring applications):
+
+```clojure
+(as-stream (gen-pdf html))
+
 #<BufferedInputStream java.io.BufferedInputStream@43bda1e0>
+```
+
+pdfkit-clj's `gen-pdf` can also accept HTML nodes (e.g. Enlive):
+
+```
+(deftemplate my-template
+  ...)
+
+(gen-pdf (my-template) ...)
 ```
 
 Options:
 
 ```clojure
 (gen-pdf html
+         :asset-path "resources/public"
+         :stylesheets ["stylesheets/main.css"
+                       "stylesheets/invoices.css"]
          :path "bin/wkhtmltopdf-amd64"
          :tmp "other/tmp")
 ```
@@ -33,6 +53,7 @@ Defaults:
 ```
 :path "wkhtmltopdf"
 :tmp "/tmp"
+:asset-path "resources/public"
 ```
 
 ## Heroku
