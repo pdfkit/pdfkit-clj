@@ -13,6 +13,7 @@ Leiningen installation:
 ## Usage
 
 ```clojure
+(require '[pdfkit-clj.core :refer :all])
 (def html "<html><body>Hello!</body></html>")
 
 (gen-pdf html)
@@ -30,7 +31,7 @@ You can also convert your file to an InputStream, ready for consumption by a bro
 
 pdfkit-clj's `gen-pdf` can also accept HTML nodes (e.g. Enlive):
 
-```
+```clojure
 (deftemplate my-template
   ...)
 

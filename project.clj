@@ -1,4 +1,4 @@
-(defproject pdfkit-clj "0.1.0"
+(defproject pdfkit-clj "0.1.1"
   :description "Generates PDFs using wkhtmltopdf"
   :url "https://github.com/banzai-inc/pdfkit-clj"
   :license {:name "Eclipse Public License"
