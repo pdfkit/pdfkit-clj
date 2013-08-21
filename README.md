@@ -35,6 +35,26 @@ Defaults:
 :tmp "/tmp"
 ```
 
+## Heroku
+
+If you're like me, everything must work on Heroku. Here's the setup:
+
+#### 1. Download wkhtmltopdf to the `./bin` directory of your Leiningen project.
+
+```
+mkdir bin
+cd bin
+wget https://wkhtmltopdf.googlecode.com/files/wkhtmltopdf-0.9.9-static-amd64.tar.bz2
+```
+
+Finally, Unzip the file and rename it to `wkhtmltopdf`.
+
+#### 2. Call `gen-pdf` with appropriate paths:
+
+```clojure
+(gen-pdf html :path "bin/wkhtmltopdf")
+```
+
 ## License
 
 Copyright © 2013 Banzai Inc.
