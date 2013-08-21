@@ -32,10 +32,10 @@ You can also convert your file to an InputStream, ready for consumption by a bro
 pdfkit-clj's `gen-pdf` can also accept HTML nodes (e.g. Enlive):
 
 ```clojure
-(deftemplate my-template
+(defsnippet my-snippet
   ...)
 
-(gen-pdf (my-template) ...)
+(gen-pdf (my-snippet) ...)
 ```
 
 ### Options:
