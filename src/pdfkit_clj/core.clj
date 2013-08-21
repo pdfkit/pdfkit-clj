@@ -10,13 +10,12 @@
 
 (defn- rand-tmp-file-name
   [tmp-dir]
-  (str
-    tmp-dir "/"
-    "pdfkit-"
-    (string/replace
-      (fmt/unparse (fmt/formatters :basic-date-time)
-                   (local/local-now)) #"\." "")
-    ".pdf"))
+  (str tmp-dir "/"
+       "pdfkit-"
+       (string/replace
+         (fmt/unparse (fmt/formatters :basic-date-time)
+                      (local/local-now)) #"\." "")
+       ".pdf"))
 
 (defn gen-pdf
   "Produces PDF output given an html string."
