@@ -38,7 +38,7 @@ pdfkit-clj's `gen-pdf` can also accept HTML nodes (e.g. Enlive):
 (gen-pdf (my-template) ...)
 ```
 
-Options:
+## Options:
 
 ```clojure
 (gen-pdf html
@@ -48,6 +48,10 @@ Options:
          :path "bin/wkhtmltopdf-amd64"
          :tmp "other/tmp")
 ```
+
+## Images
+
+Right now, pdfkit-clj requires your image tags reference an absolute URL or URI on disk. Simply upload your image to S3, for example, and wkhtmltopdf will have access to it via the file's full URL.
 
 Defaults:
 
