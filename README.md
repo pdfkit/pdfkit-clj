@@ -4,7 +4,11 @@ A Clojure library for generating PDFs from HTML. Uses wkhtmltopdf, and insipred 
 
 ## Install
 
-Leiningen installation: https://clojars.org/pdfkit-clj.
+Leiningen installation:
+
+```
+[pdfkit-clj "0.1.0"]
+```
 
 ## Usage
 
