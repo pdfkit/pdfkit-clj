@@ -36,7 +36,7 @@
   (let [p (str (System/getProperty "user.dir") "/" asset-path)
         styles (concat-styles stylesheets p)]
     (e/at html
-          [:head] (e/content (e/html [:style styles])))))
+          [:head] (e/append (e/html [:style styles])))))
 
 (defmulti html-as-nodes class)
 
