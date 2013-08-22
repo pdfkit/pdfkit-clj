@@ -46,20 +46,22 @@ pdfkit-clj's `gen-pdf` can also accept HTML nodes (e.g. Enlive):
          :stylesheets ["stylesheets/main.css"
                        "stylesheets/invoices.css"]
          :path "bin/wkhtmltopdf-amd64"
+         :margin {:top 20 :right 15 :bottom 50 :left 15}
          :tmp "other/tmp")
+```
+
+#### Defaults:
+
+```clojure
+:path "wkhtmltopdf"
+:tmp "/tmp"
+:asset-path "resources/public"
+:margin {:top 10 :right 10 :bottom 10 :left 10} ;; in mm
 ```
 
 ### Images
 
 Right now, pdfkit-clj requires your image tags reference an absolute URL or URI on disk. Simply upload your image to S3, for example, and wkhtmltopdf will have access to it via the file's full URL.
-
-### Defaults:
-
-```
-:path "wkhtmltopdf"
-:tmp "/tmp"
-:asset-path "resources/public"
-```
 
 ### Heroku
 
