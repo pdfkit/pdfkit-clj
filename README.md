@@ -1,13 +1,13 @@
 # pdfkit-clj
 
-A Clojure library for generating PDFs from HTML. Uses wkhtmltopdf, and insipred by Ruby's pdfkit and [ring-wicked-pdf](https://github.com/gberenfield/ring-wicked-pdf).
+A Clojure library for generating PDFs from HTML. Uses wkhtmltopdf, and insipred by Ruby's [pdfkit](https://github.com/pdfkit/pdfkit) and [ring-wicked-pdf](https://github.com/gberenfield/ring-wicked-pdf).
 
 ### Install
 
 Leiningen installation:
 
 ```
-[pdfkit-clj "0.1.1"]
+[pdfkit-clj "0.1.2"]
 ```
 
 ### Usage
