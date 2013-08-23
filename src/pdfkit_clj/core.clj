@@ -80,7 +80,7 @@
   [f]
   (io/input-stream f))
 
-(def html "<html><head></head><body>Ugly&nbsp;&nbsp;Joe Nobody!&trade;</body></html>")
-(sh "open" (str (gen-pdf html
-                         :stylesheets ["stylesheets/test.css" "stylesheets/test_1.css"]
-                         :margin {:top 50 :left 30})))
+;; (def html "<html><head></head><body>Ugly&nbsp;&nbsp;Joe Nobody!&trade;</body></html>")
+;; (sh "open" (str (gen-pdf html
+;;                          :stylesheets ["stylesheets/test.css" "stylesheets/test_1.css"]
+;;                          :margin {:top 50 :left 30})))
