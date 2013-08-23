@@ -9,7 +9,7 @@
 
 (def ^{:private true} defaults {:tmp "/tmp"
                                 :path "wkhtmltopdf"
-                                :asset-path "resources/public"
+                                :asset-path "public"
                                 :margin {:top 10
                                          :right 10
                                          :bottom 10
@@ -26,15 +26,13 @@
 
 (defn- concat-styles
   "Takes a list of files and produces a single stylesheet."
-  [stylesheets absolute-path]
-  (apply str (map #(slurp (str absolute-path "/" %))
-                  stylesheets)))
+  [stylesheets]
+  (apply str (map #(slurp %) stylesheets)))
 
 (defn- append-styles
   "Appends stylesheets to the HTML's head tag."
-  [html stylesheets asset-path]
-  (let [p (str (System/getProperty "user.dir") "/" asset-path)
-        styles (concat-styles stylesheets p)]
+  [html stylesheets]
+  (let [styles (concat-styles stylesheets)]
     (e/at html
           [:head] (e/append (e/html [:style styles])))))
 
@@ -65,9 +63,11 @@
                 margin {}}}]
   (let [margin (merge (:margin defaults) margin)
         tmp-file-name (rand-tmp-file-name tmp)
+        stylesheets (map #(io/resource (str asset-path "/" %))
+                         stylesheets)
         html (-> html
                  (html-as-nodes)
-                 (append-styles stylesheets asset-path)
+                 (append-styles stylesheets)
                  (html-as-string))]
     (sh path
         "-T" (top* margin) "-R" (right* margin)
@@ -80,7 +80,7 @@
   [f]
   (io/input-stream f))
 
-;; (def html "<html><head></head><body>Ugly&nbsp;&nbsp;Joe Nobody!&trade;</body></html>")
-;; (sh "open" (str (gen-pdf html
-;;                          :stylesheets ["stylesheets/test.css" "stylesheets/test_1.css"]
-;;                          :margin {:top 50 :left 30})))
+(def html "<html><head></head><body>Ugly&nbsp;&nbsp;Joe Nobody!&trade;</body></html>")
+(sh "open" (str (gen-pdf html
+                         :stylesheets ["stylesheets/test.css" "stylesheets/test_1.css"]
+                         :margin {:top 50 :left 30})))

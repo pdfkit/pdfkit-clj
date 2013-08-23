@@ -42,7 +42,7 @@ pdfkit-clj's `gen-pdf` can also accept HTML nodes (e.g. Enlive):
 
 ```clojure
 (gen-pdf html
-         :asset-path "resources/public"
+         :asset-path "public" ; Relative to your "resources" directory
          :stylesheets ["stylesheets/main.css"
                        "stylesheets/invoices.css"]
          :path "bin/wkhtmltopdf-amd64"
