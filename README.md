@@ -47,6 +47,7 @@ pdfkit-clj's `gen-pdf` can also accept HTML nodes (e.g. Enlive):
                        "stylesheets/invoices.css"]
          :path "bin/wkhtmltopdf-amd64"
          :margin {:top 20 :right 15 :bottom 50 :left 15}
+         :page-size "A4"
          :tmp "other/tmp")
 ```
 
@@ -57,6 +58,7 @@ pdfkit-clj's `gen-pdf` can also accept HTML nodes (e.g. Enlive):
 :tmp "/tmp"
 :asset-path "resources/public"
 :margin {:top 10 :right 10 :bottom 10 :left 10} ;; in mm
+:page-size "A4"
 ```
 
 ### Images
