@@ -14,7 +14,8 @@
                                          :right 10
                                          :bottom 10
                                          :left 10}
-                                :orientation "Portrait"})
+                                :orientation "Portrait"
+                                :page-size "A4"})
 
 (defn- rand-tmp-file-name
   [tmp-dir]
@@ -58,12 +59,13 @@
 
 (defn gen-pdf
   "Produces a PDF file given an html string."
-  [html & {:keys [path tmp asset-path stylesheets margin orientation]
-           :or {path (:path defaults) 
+  [html & {:keys [path tmp asset-path stylesheets margin orientation page-size]
+           :or {path (:path defaults)
                 tmp (:tmp defaults)
                 asset-path (:asset-path defaults)
                 margin {}
-                orientation (:orientation defaults)}}]
+                orientation (:orientation defaults)
+                page-size (:page-size defaults)}}]
   (let [margin (merge (:margin defaults) margin)
         tmp-file-name (rand-tmp-file-name tmp)
         stylesheets (map #(io/resource (str asset-path "/" %))
@@ -76,6 +78,7 @@
         "-T" (top* margin) "-R" (right* margin)
         "-B" (bottom* margin) "-L" (left* margin)
         "-O" orientation
+        "-s" page-size
         "-" tmp-file-name :in html)
     (io/as-file tmp-file-name)))
 
