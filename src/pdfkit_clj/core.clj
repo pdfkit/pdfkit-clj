@@ -1,6 +1,7 @@
 (ns pdfkit-clj.core
   (:require [clojure.java.io :as io]
             [clojure.java.shell :refer :all]
+            [clj-http.client :as http]
             [clj-time.local :as local]
             [clj-time.format :as fmt]
             [clojure.string :as string]
@@ -26,15 +27,20 @@
                       (local/local-now)) #"\." "")
        ".pdf"))
 
+(def uri-regex #"^http(s?)://")
+
 (defn- concat-styles
   "Takes a list of files and produces a single stylesheet."
-  [stylesheets]
-  (apply str (map #(slurp %) stylesheets)))
+  [asset-path http-opts stylesheets]
+  (apply str (map (fn [s]
+                    (if (re-find uri-regex s)
+                      (-> (http/get s http-opts) :body)
+                      (slurp (io/resource (str asset-path "/" s))))) stylesheets)))
 
 (defn- append-styles
   "Appends stylesheets to the HTML's head tag."
-  [html stylesheets]
-  (let [styles (concat-styles stylesheets)]
+  [html asset-path http-opts stylesheets]
+  (let [styles (concat-styles asset-path http-opts stylesheets)]
     (e/at html
           [:head] (e/append (e/html [:style styles])))))
 
@@ -59,27 +65,30 @@
 
 (defn gen-pdf
   "Produces a PDF file given an html string."
-  [html & {:keys [path tmp asset-path stylesheets margin orientation page-size]
+  [html & {:keys [path tmp asset-path stylesheets margin orientation page-size cmd-args http-opts]
            :or {path (:path defaults)
                 tmp (:tmp defaults)
                 asset-path (:asset-path defaults)
                 margin {}
                 orientation (:orientation defaults)
                 page-size (:page-size defaults)}}]
+
   (let [margin (merge (:margin defaults) margin)
         tmp-file-name (rand-tmp-file-name tmp)
-        stylesheets (map #(io/resource (str asset-path "/" %))
-                         stylesheets)
         html (-> html
                  (html-as-nodes)
-                 (append-styles stylesheets)
-                 (html-as-string))]
-    (sh path
-        "-T" (top* margin) "-R" (right* margin)
-        "-B" (bottom* margin) "-L" (left* margin)
-        "-O" orientation
-        "-s" page-size
-        "-" tmp-file-name :in html)
+                 (append-styles asset-path http-opts stylesheets)
+                 (html-as-string))
+        args
+        (concat
+          cmd-args
+          ["-T" (top* margin) "-R" (right* margin)
+           "-B" (bottom* margin) "-L" (left* margin)
+           "-O" orientation
+           "-s" page-size
+           "-" tmp-file-name :in html])]
+
+    (apply sh path args)
     (io/as-file tmp-file-name)))
 
 (defn as-stream
@@ -87,7 +96,8 @@
   [f]
   (io/input-stream f))
 
-;; (def html "<html><head></head><body>Ugly&nbsp;&nbsp;Joe Nobody!&trade;</body></html>")
-;; (sh "open" (str (gen-pdf html
-;;                          :stylesheets ["stylesheets/test.css" "stylesheets/test_1.css"]
-;;                          :margin {:top 50 :left 30})))
+;(def html "<html><head></head><body>Ugly&nbsp;&nbsp;Joe Nobody!&trade;</body></html>")
+; (sh "open" (str (gen-pdf html
+;                         :stylesheets ["stylesheets/test.css" "stylesheets/test_1.css" "https://www.example.com/test_2.css"]
+;                         :margin {:top 50 :left 30}
+;                         :cmd-args ["--zoom" "15"])))
