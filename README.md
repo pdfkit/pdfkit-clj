@@ -7,7 +7,7 @@ A Clojure library for generating PDFs from HTML. Uses wkhtmltopdf, and insipred 
 Leiningen installation:
 
 ```
-[pdfkit-clj "0.1.6"]
+[pdfkit-clj "0.1.7"]
 ```
 
 ### Usage
@@ -87,6 +87,6 @@ Finally, Unzip the file and rename it to `wkhtmltopdf`.
 
 ### License
 
-Copyright © 2013 Banzai Inc.
+Copyright © 2018 Banzai Inc.
 
 Distributed under the Eclipse Public License, the same as Clojure.
